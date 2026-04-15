@@ -36,6 +36,102 @@ public class TelaCaixa
         ExibirCabecalho("Cadastro de Caixa");
 
         // obtenção dos dados
+        Caixa novaCaixa = ObterDadosCadastrais();
+
+        // armazenamento da novaCaixa
+        repositorioCaixa.Cadastrar(novaCaixa);
+
+        Console.WriteLine("---------------------------------");
+        Console.WriteLine($"O registro \"{novaCaixa.Id}\" foi cadastrado com sucesso!");
+        Console.WriteLine("---------------------------------");
+        Console.WriteLine("Digite ENTER para continuar...");
+        Console.ReadLine();
+    }
+
+    public void Editar()
+    {
+        ExibirCabecalho("Edição de Caixa");
+
+        // seleção da caixa que quero editar
+        Console.WriteLine(
+            "{0, -7} | {1, -20} | {2, -10} | {3, -20}",
+            "Id", "Etiqueta", "Cor", "Tempo de Empréstimo"
+        );
+
+        Caixa?[] caixas = repositorioCaixa.SelecionarTodas();
+
+        for (int i = 0; i < caixas.Length; i++)
+        {
+            Caixa? c = caixas[i];
+
+            if (c == null)
+                continue;
+
+            Console.WriteLine(
+                "{0, -7} | {1, -20} | {2, -10} | {3, -20}",
+                c.Id, c.Etiqueta, c.Cor, c.DiasDeEmprestimo
+            );
+        }
+
+        Console.WriteLine("---------------------------------");
+
+        string? idSelecionado;
+
+        do
+        {
+            Console.Write("Digite o ID do registro que deseja editar: ");
+            idSelecionado = Console.ReadLine();
+
+            if (!string.IsNullOrWhiteSpace(idSelecionado) && idSelecionado.Length == 7)
+                break;
+        } while (true);
+
+        Console.WriteLine("---------------------------------");
+
+        // passagem de informações para edição
+        Caixa novaCaixa = ObterDadosCadastrais();
+
+        bool conseguiuEditar = repositorioCaixa.Editar(idSelecionado, novaCaixa);
+
+        if (!conseguiuEditar)
+        {
+            Console.WriteLine("---------------------------------");
+            Console.WriteLine("Não foi possível encontrar o registro requisitado.");
+            Console.WriteLine("---------------------------------");
+            Console.WriteLine("Digite ENTER para continuar...");
+            Console.ReadLine();
+            return;
+        }
+
+        Console.WriteLine("---------------------------------");
+        Console.WriteLine($"O registro \"{idSelecionado}\" foi editado com sucesso.");
+        Console.WriteLine("---------------------------------");
+        Console.WriteLine("Digite ENTER para continuar...");
+        Console.ReadLine();
+    }
+
+    public void Excluir()
+    {
+        throw new NotImplementedException();
+    }
+
+    public void VisualizarTodos()
+    {
+        throw new NotImplementedException();
+    }
+
+    public void ExibirCabecalho(string titulo)
+    {
+        // Console.Clear();
+        Console.WriteLine("---------------------------------");
+        Console.WriteLine("Gestão de Caixas");
+        Console.WriteLine("---------------------------------");
+        Console.WriteLine(titulo);
+        Console.WriteLine("---------------------------------");
+    }
+
+    private Caixa ObterDadosCadastrais()
+    {
         Console.Write("Informe a etiqueta da caixa: ");
         string? etiqueta = Console.ReadLine();
 
@@ -68,41 +164,8 @@ public class TelaCaixa
         Console.Write("Informe o tempo de empréstimo das revistas da caixa: ");
         int diasDeEmprestimo = Convert.ToInt32(Console.ReadLine());
 
-        // regra pra criação de caixas
         Caixa novaCaixa = new Caixa(etiqueta, cor, diasDeEmprestimo);
 
-        // armazenamento da novaCaixa
-        repositorioCaixa.Cadastrar(novaCaixa);
-
-        Console.WriteLine("---------------------------------");
-        Console.WriteLine($"O registro \"{novaCaixa.Id}\" foi cadastrado com sucesso!");
-        Console.WriteLine("---------------------------------");
-        Console.WriteLine("Digite ENTER para continuar...");
-        Console.ReadLine();
-    }
-
-    public void Editar()
-    {
-        throw new NotImplementedException();
-    }
-
-    public void Excluir()
-    {
-        throw new NotImplementedException();
-    }
-
-    public void VisualizarTodos()
-    {
-        throw new NotImplementedException();
-    }
-
-    public void ExibirCabecalho(string titulo)
-    {
-        // Console.Clear();
-        Console.WriteLine("---------------------------------");
-        Console.WriteLine("Gestão de Caixas");
-        Console.WriteLine("---------------------------------");
-        Console.WriteLine(titulo);
-        Console.WriteLine("---------------------------------");
+        return novaCaixa;
     }
 }
