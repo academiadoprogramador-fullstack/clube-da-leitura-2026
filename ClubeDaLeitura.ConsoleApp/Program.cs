@@ -1,14 +1,18 @@
 ﻿
 using ClubeDaLeitura.ConsoleApp.Apresentacao;
+using ClubeDaLeitura.ConsoleApp.Dominio;
 using ClubeDaLeitura.ConsoleApp.Infraestrutura;
 
 RepositorioCaixa repositorioCaixa = new RepositorioCaixa();
 
 TelaCaixa telaCaixa = new TelaCaixa(repositorioCaixa);
 
+Caixa caixa = new Caixa("Lançamentos", "Vermelho", 3);
+repositorioCaixa.Cadastrar(caixa);
+
 while (true)
 {
-    // Console.Clear();
+    Console.Clear();
     Console.WriteLine("---------------------------------");
     Console.WriteLine("Clube da Leitura");
     Console.WriteLine("---------------------------------");
@@ -51,7 +55,7 @@ while (true)
                 telaCaixa.Excluir();
 
             else if (opcaoMenuInterno == "4")
-                telaCaixa.VisualizarTodos();
+                telaCaixa.VisualizarTodos(deveExibirCabecalho: true);
         }
 
         else if (opcaoMenuPrincipal == "2")
