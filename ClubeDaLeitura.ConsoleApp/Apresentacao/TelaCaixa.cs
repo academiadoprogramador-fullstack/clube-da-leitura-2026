@@ -36,6 +36,33 @@ public class TelaCaixa
 
         Caixa novaCaixa = ObterDadosCadastrais();
 
+        string[] erros = novaCaixa.Validar();
+
+        if (erros.Length > 0)
+        {
+            Console.WriteLine("---------------------------------");
+
+            Console.ForegroundColor = ConsoleColor.Red;
+
+            for (int i = 0; i < erros.Length; i++)
+            {
+                string erro = erros[i];
+
+                Console.WriteLine(erro);
+            }
+
+            Console.ResetColor();
+            Console.WriteLine("---------------------------------");
+            Console.Write("Digite ENTER para continuar...");
+            Console.ReadLine();
+
+            // Recursão
+            Cadastrar();
+            return;
+        }
+
+        Console.ResetColor();
+
         repositorioCaixa.Cadastrar(novaCaixa);
 
         ExibirMensagem($"O registro \"{novaCaixa.Id}\" foi cadastrado com sucesso!");
@@ -63,6 +90,31 @@ public class TelaCaixa
         Console.WriteLine("---------------------------------");
 
         Caixa novaCaixa = ObterDadosCadastrais();
+
+        string[] erros = novaCaixa.Validar();
+
+        if (erros.Length > 0)
+        {
+            Console.WriteLine("---------------------------------");
+
+            Console.ForegroundColor = ConsoleColor.Red;
+
+            for (int i = 0; i < erros.Length; i++)
+            {
+                string erro = erros[i];
+
+                Console.WriteLine(erro);
+            }
+
+            Console.ResetColor();
+            Console.WriteLine("---------------------------------");
+            Console.Write("Digite ENTER para continuar...");
+            Console.ReadLine();
+
+            // Recursão
+            Editar();
+            return;
+        }
 
         bool conseguiuEditar = repositorioCaixa.Editar(idSelecionado, novaCaixa);
 
@@ -192,7 +244,7 @@ public class TelaCaixa
         Console.WriteLine("---------------------------------");
         Console.WriteLine(mensagem);
         Console.WriteLine("---------------------------------");
-        Console.WriteLine("Digite ENTER para continuar...");
+        Console.Write("Digite ENTER para continuar...");
         Console.ReadLine();
     }
 }
