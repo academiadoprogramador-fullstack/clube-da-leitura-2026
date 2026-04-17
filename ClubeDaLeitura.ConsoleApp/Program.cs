@@ -16,7 +16,7 @@ repositorioRevista.Cadastrar(revista);
 
 while (true)
 {
-    // Console.Clear();
+    Console.Clear();
     Console.WriteLine("---------------------------------");
     Console.WriteLine("Clube da Leitura");
     Console.WriteLine("---------------------------------");

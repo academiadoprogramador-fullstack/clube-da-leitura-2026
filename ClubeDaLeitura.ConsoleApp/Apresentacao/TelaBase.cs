@@ -1,19 +1,151 @@
+using ClubeDaLeitura.ConsoleApp.Dominio;
+using ClubeDaLeitura.ConsoleApp.Infraestrutura;
+
 namespace ClubeDaLeitura.ConsoleApp.Apresentacao;
 
 public abstract class TelaBase
 {
     public string nomeEntidade = string.Empty;
+    private RepositorioBase repositorio;
 
-    protected TelaBase(string nomeEntidade)
+    protected TelaBase(string nomeEntidade, RepositorioBase repositorio)
     {
         this.nomeEntidade = nomeEntidade;
+        this.repositorio = repositorio;
     }
+
+    public void Cadastrar()
+    {
+        ExibirCabecalho($"Cadastro de {nomeEntidade}");
+
+        EntidadeBase novaEntidade = ObterDadosCadastrais();
+
+        string[] erros = novaEntidade.Validar();
+
+        if (erros.Length > 0)
+        {
+            Console.WriteLine("---------------------------------");
+
+            Console.ForegroundColor = ConsoleColor.Red;
+
+            for (int i = 0; i < erros.Length; i++)
+            {
+                string erro = erros[i];
+
+                Console.WriteLine(erro);
+            }
+
+            Console.ResetColor();
+            Console.WriteLine("---------------------------------");
+            Console.Write("Digite ENTER para continuar...");
+            Console.ReadLine();
+
+            // Recursão
+            Cadastrar();
+            return;
+        }
+
+        repositorio.Cadastrar(novaEntidade);
+
+        ExibirMensagem($"O registro \"{novaEntidade.Id}\" foi cadastrado com sucesso!");
+    }
+
+    public void Editar()
+    {
+        ExibirCabecalho($"Edição de {nomeEntidade}");
+
+        VisualizarTodos(deveExibirCabecalho: false);
+
+        Console.WriteLine("---------------------------------");
+
+        string? idSelecionado;
+
+        do
+        {
+            Console.Write("Digite o ID do registro que deseja editar: ");
+            idSelecionado = Console.ReadLine();
+
+            if (!string.IsNullOrWhiteSpace(idSelecionado) && idSelecionado.Length == 7)
+                break;
+        } while (true);
+
+        Console.WriteLine("---------------------------------");
+
+        EntidadeBase novaEntidade = ObterDadosCadastrais();
+
+        string[] erros = novaEntidade.Validar();
+
+        if (erros.Length > 0)
+        {
+            Console.WriteLine("---------------------------------");
+
+            Console.ForegroundColor = ConsoleColor.Red;
+
+            for (int i = 0; i < erros.Length; i++)
+            {
+                string erro = erros[i];
+
+                Console.WriteLine(erro);
+            }
+
+            Console.ResetColor();
+            Console.WriteLine("---------------------------------");
+            Console.Write("Digite ENTER para continuar...");
+            Console.ReadLine();
+
+            // Recursão
+            Editar();
+            return;
+        }
+
+        bool conseguiuEditar = repositorio.Editar(idSelecionado, novaEntidade);
+
+        if (!conseguiuEditar)
+        {
+            ExibirMensagem("Não foi possível encontrar o registro requisitado.");
+            return;
+        }
+
+        ExibirMensagem($"O registro \"{idSelecionado}\" foi editado com sucesso.");
+    }
+
+    public void Excluir()
+    {
+        ExibirCabecalho("Exclusão de Caixa");
+
+        VisualizarTodos(deveExibirCabecalho: false);
+
+        Console.WriteLine("---------------------------------");
+
+        string? idSelecionado;
+
+        do
+        {
+            Console.Write("Digite o ID do registro que deseja excluir: ");
+            idSelecionado = Console.ReadLine();
+
+            if (!string.IsNullOrWhiteSpace(idSelecionado) && idSelecionado.Length == 7)
+                break;
+        } while (true);
+
+        bool conseguiuExcluir = repositorio.Excluir(idSelecionado);
+
+        if (!conseguiuExcluir)
+        {
+            ExibirMensagem("Não foi possível encontrar o registro requisitado.");
+            return;
+        }
+
+        ExibirMensagem($"O registro \"{idSelecionado}\" foi excluído com sucesso.");
+    }
+
+    public abstract void VisualizarTodos(bool deveExibirCabecalho);
 
     public string? ObterOpcaoMenu()
     {
         string nomeMinusculo = nomeEntidade.ToLower();
 
-        // Console.Clear();
+        Console.Clear();
         Console.WriteLine("---------------------------------");
         Console.WriteLine($"Gestão de {nomeEntidade}");
         Console.WriteLine("---------------------------------");
@@ -31,7 +163,7 @@ public abstract class TelaBase
 
     protected void ExibirCabecalho(string titulo)
     {
-        // Console.Clear();
+        Console.Clear();
         Console.WriteLine("---------------------------------");
         Console.WriteLine($"Gestão de {nomeEntidade}");
         Console.WriteLine("---------------------------------");
@@ -47,4 +179,6 @@ public abstract class TelaBase
         Console.Write("Digite ENTER para continuar...");
         Console.ReadLine();
     }
+
+    protected abstract EntidadeBase ObterDadosCadastrais();
 }
