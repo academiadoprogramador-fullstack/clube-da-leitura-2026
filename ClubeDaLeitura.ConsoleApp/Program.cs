@@ -14,6 +14,10 @@ repositorioCaixa.Cadastrar(caixa);
 Revista revista = new Revista("Action Comics", 155, 1990, caixa);
 repositorioRevista.Cadastrar(revista);
 
+Amigo amigo = new Amigo("Joãozinho", "Dona Cleide", "49 ABC222-4353");
+
+amigo.Validar();
+
 while (true)
 {
     Console.Clear();
