@@ -24,7 +24,7 @@ public class TelaCaixa : TelaBase
             "Id", "Etiqueta", "Cor", "Tempo de Empréstimo"
         );
 
-        EntidadeBase?[] caixas = repositorioCaixa.SelecionarTodas();
+        EntidadeBase?[] caixas = repositorioCaixa.SelecionarTodos();
 
         for (int i = 0; i < caixas.Length; i++)
         {
@@ -63,7 +63,7 @@ public class TelaCaixa : TelaBase
     protected override EntidadeBase ObterDadosCadastrais()
     {
         Console.Write("Informe a etiqueta da caixa: ");
-        string? etiqueta = Console.ReadLine();
+        string etiqueta = Console.ReadLine() ?? string.Empty;
 
         Console.WriteLine("---------------------------------");
         Console.WriteLine("Selecione uma das cores válidas");
@@ -78,7 +78,7 @@ public class TelaCaixa : TelaBase
         Console.WriteLine("---------------------------------");
 
         Console.Write("Informe a cor da caixa: ");
-        string? codigoCor = Console.ReadLine();
+        string codigoCor = Console.ReadLine() ?? string.Empty;
 
         string cor;
 

@@ -2,6 +2,7 @@
 using ClubeDaLeitura.ConsoleApp.Dominio;
 using ClubeDaLeitura.ConsoleApp.Infraestrutura;
 
+// 1. Instanciação de dependências
 RepositorioCaixa repositorioCaixa = new RepositorioCaixa();
 RepositorioRevista repositorioRevista = new RepositorioRevista();
 RepositorioAmigo repositorioAmigo = new RepositorioAmigo();
@@ -10,6 +11,7 @@ TelaCaixa telaCaixa = new TelaCaixa(repositorioCaixa);
 TelaRevista telaRevista = new TelaRevista(repositorioRevista, repositorioCaixa);
 TelaAmigo telaAmigo = new TelaAmigo(repositorioAmigo);
 
+// 2. Criação de dados teste
 Caixa caixa = new Caixa("Lançamentos", "Vermelho", 3);
 repositorioCaixa.Cadastrar(caixa);
 
@@ -19,6 +21,7 @@ repositorioRevista.Cadastrar(revista);
 Amigo amigo = new Amigo("Joãozinho", "Dona Cleide", "49 98222-4353");
 repositorioAmigo.Cadastrar(amigo);
 
+// 3. Loop principal
 while (true)
 {
     Console.Clear();
@@ -42,7 +45,7 @@ while (true)
 
     while (true)
     {
-        string? opcaoMenuInterno = string.Empty;
+        string? opcaoMenuInterno;
 
         if (opcaoMenuPrincipal == "1") // Caixas
         {

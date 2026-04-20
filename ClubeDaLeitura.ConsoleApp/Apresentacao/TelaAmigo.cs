@@ -24,7 +24,7 @@ public class TelaAmigo : TelaBase
             "Id", "Nome", "Responsável", "Telefone"
         );
 
-        EntidadeBase?[] amigos = repositorioAmigo.SelecionarTodas();
+        EntidadeBase?[] amigos = repositorioAmigo.SelecionarTodos();
 
         for (int i = 0; i < amigos.Length; i++)
         {

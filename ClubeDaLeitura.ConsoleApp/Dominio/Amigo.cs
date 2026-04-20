@@ -2,10 +2,6 @@ using ClubeDaLeitura.ConsoleApp.Dominio.Base;
 
 namespace ClubeDaLeitura.ConsoleApp.Dominio;
 
-/*
-    Regras de Negócio:
-        ● Não pode haver amigos com o mesmo nome e telefone
-*/
 public class Amigo : EntidadeBase
 {
     public string Nome { get; set; } = string.Empty;
