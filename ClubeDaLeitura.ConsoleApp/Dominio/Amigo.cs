@@ -4,12 +4,7 @@ namespace ClubeDaLeitura.ConsoleApp.Dominio;
 
 /*
     Regras de Negócio:
-        ● Campos obrigatórios:
-            ○ Nome (mínimo 2 caracteres, máximo 100)
-            ○ Nome do responsável (mínimo 2 caracteres, máximo 100)
-            ○ Telefone (formato validado: 10-11 dígitos)
         ● Não pode haver amigos com o mesmo nome e telefone
-
 */
 public class Amigo : EntidadeBase
 {
@@ -24,11 +19,6 @@ public class Amigo : EntidadeBase
         Telefone = telefone;
     }
 
-    /*
-        ○ Nome (mínimo 2 caracteres, máximo 100)
-        ○ Nome do responsável (mínimo 2 caracteres, máximo 100)
-        ○ Telefone (formato validado: 10-11 dígitos*)
-    */
     public override string[] Validar()
     {
         string erros = string.Empty;
