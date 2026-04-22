@@ -26,10 +26,11 @@ repositorioAmigo.Cadastrar(amigo);
 Emprestimo emprestimo = new Emprestimo(revista, amigo);
 emprestimo.Abrir();
 repositorioEmprestimo.Cadastrar(emprestimo);
+
 // 3. Loop principal
 while (true)
 {
-    // Console.Clear();
+    Console.Clear();
     Console.WriteLine("---------------------------------");
     Console.WriteLine("Clube da Leitura");
     Console.WriteLine("---------------------------------");

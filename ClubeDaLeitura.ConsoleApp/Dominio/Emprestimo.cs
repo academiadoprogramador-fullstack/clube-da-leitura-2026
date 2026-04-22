@@ -2,28 +2,15 @@ using System.Security.Cryptography;
 
 namespace ClubeDaLeitura.ConsoleApp.Dominio;
 
-/*
-    Regras de Negócio:
-        ● Campos obrigatórios:
-            ○ Amigo
-            ○ Revista (disponível no momento)
-            ○ Data empréstimo (automática)
-            ○ Data devolução (calculada conforme caixa)
-        ● Status possíveis: Aberto / Concluído / Atrasado
-        ● Cada amigo só pode ter um empréstimo ativo por vez
-        ● Empréstimos atrasados devem ser destacados visualmente
-        ● A data de devolução é calculada automaticamente (data empréstimo + dias da
-        caixa)
-*/
 public class Emprestimo
 {
     public string Id { get; set; } = string.Empty;
     public Revista Revista { get; set; }
     public Amigo Amigo { get; set; }
+    public StatusEmprestimo Status { get; set; }
     public DateTime Abertura { get; set; }
     public DateTime ConclusaoPrevista
     {
-        // encapsula a lógica da leitura da Conclusão Prevista
         get
         {
             int diasDeEmprestimo = Revista.Caixa.DiasDeEmprestimo;
@@ -33,7 +20,6 @@ public class Emprestimo
             return conclusao;
         }
     }
-    public StatusEmprestimo Status { get; set; } = StatusEmprestimo.Indefinido;
 
     public Emprestimo(Revista revista, Amigo amigo)
     {

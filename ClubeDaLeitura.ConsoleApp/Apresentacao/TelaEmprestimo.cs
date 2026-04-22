@@ -24,7 +24,7 @@ public class TelaEmprestimo
 
     public string? ObterOpcaoMenu()
     {
-        // Console.Clear();
+        Console.Clear();
         Console.WriteLine("---------------------------------");
         Console.WriteLine($"Gestão de Empréstimos");
         Console.WriteLine("---------------------------------");
@@ -41,12 +41,10 @@ public class TelaEmprestimo
 
     public void Abrir()
     {
-        // lógica de abertura e cadastro de empréstimo?
+        ExibirCabecalho("Abertura de Empréstimo");
 
-        // 1. Obter os dados obrigatórios de um empréstimo (Revista, Amigo)
         Emprestimo emprestimo = ObterDadosCadastrais();
 
-        // 2. Validar o empréstimo
         string[] erros = emprestimo.Validar();
 
         if (erros.Length > 0)
@@ -71,11 +69,11 @@ public class TelaEmprestimo
             return;
         }
 
-        // 3. Abrir o empréstimo
         emprestimo.Abrir();
 
-        // 4. Armazenar/cadastrar o empréstimo
         repositorioEmprestimo.Cadastrar(emprestimo);
+
+        ExibirMensagem($"O empréstimo \"{emprestimo.Id}\" foi aberto e cadastrado com sucesso.");
     }
 
     private Emprestimo ObterDadosCadastrais()
@@ -181,5 +179,24 @@ public class TelaEmprestimo
         }
 
         Console.WriteLine("---------------------------------");
+    }
+
+    private void ExibirCabecalho(string titulo)
+    {
+        Console.Clear();
+        Console.WriteLine("---------------------------------");
+        Console.WriteLine($"Gestão de Empréstimos");
+        Console.WriteLine("---------------------------------");
+        Console.WriteLine(titulo);
+        Console.WriteLine("---------------------------------");
+    }
+
+    private void ExibirMensagem(string mensagem)
+    {
+        Console.WriteLine("---------------------------------");
+        Console.WriteLine(mensagem);
+        Console.WriteLine("---------------------------------");
+        Console.Write("Digite ENTER para continuar...");
+        Console.ReadLine();
     }
 }
