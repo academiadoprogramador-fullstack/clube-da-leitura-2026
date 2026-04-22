@@ -21,6 +21,10 @@ repositorioRevista.Cadastrar(revista);
 Amigo amigo = new Amigo("Joãozinho", "Dona Cleide", "49 98222-4353");
 repositorioAmigo.Cadastrar(amigo);
 
+Emprestimo emprestimo = new Emprestimo(revista, amigo);
+
+Console.ForegroundColor = ConsoleColor.;
+
 // 3. Loop principal
 while (true)
 {
