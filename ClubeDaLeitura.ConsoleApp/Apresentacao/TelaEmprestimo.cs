@@ -76,6 +76,53 @@ public class TelaEmprestimo
         ExibirMensagem($"O empréstimo \"{emprestimo.Id}\" foi aberto e cadastrado com sucesso.");
     }
 
+    public void Concluir()
+    {
+        ExibirCabecalho("Conclusão de Empréstimo");
+
+        VisualizarTodos(deveExibirCabecalho: false);
+
+        Console.WriteLine("---------------------------------");
+
+        Emprestimo? emprestimoSelecionado = null;
+
+        do
+        {
+            Console.Write("Digite o id do empréstimo que deseja concluir: ");
+            string? idSelecionado = Console.ReadLine();
+
+            if (!string.IsNullOrWhiteSpace(idSelecionado) && idSelecionado.Length == 7)
+                emprestimoSelecionado = repositorioEmprestimo.SelecionarPorId(idSelecionado);
+
+        } while (emprestimoSelecionado == null);
+
+        Console.WriteLine("---------------------------------");
+        Console.WriteLine(
+            "{0, -7} | {1, -15} | {2, -10} | {3, -10} | {4, -15}",
+            "Id", "Revista", "Amigo", "Abertura", "Conclusão Prev."
+        );
+        Console.WriteLine(
+            "{0, -7} | {1, -15} | {2, -10} | {3, -10} | {4, -15}",
+            emprestimoSelecionado.Id, emprestimoSelecionado.Revista.Titulo, emprestimoSelecionado.Amigo.Nome, emprestimoSelecionado.Abertura.ToShortDateString(), emprestimoSelecionado.ConclusaoPrevista.ToShortDateString()
+        );
+        Console.WriteLine("---------------------------------");
+
+        Console.Write("Deseja realmente concluir o empréstimo selecionado? (s/N): ");
+        string? opcaoContinuar = Console.ReadLine()?.ToUpper();
+
+        if (opcaoContinuar != "S")
+        {
+            Console.WriteLine("---------------------------------");
+            Console.WriteLine("Digite ENTER para continuar...");
+            Console.ReadLine();
+            return;
+        }
+
+        emprestimoSelecionado.Concluir();
+
+        ExibirMensagem($"O empréstimo \"{emprestimoSelecionado.Id}\" foi concluído com sucesso.");
+    }
+
     public void VisualizarTodos(bool deveExibirCabecalho)
     {
         if (deveExibirCabecalho)

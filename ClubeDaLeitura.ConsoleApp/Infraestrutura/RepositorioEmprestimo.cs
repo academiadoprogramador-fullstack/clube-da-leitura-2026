@@ -22,4 +22,20 @@ public class RepositorioEmprestimo
     {
         return emprestimos;
     }
+
+    public Emprestimo? SelecionarPorId(string idSelecionado)
+    {
+        for (int i = 0; i < emprestimos.Length; i++)
+        {
+            Emprestimo? e = emprestimos[i];
+
+            if (e == null)
+                continue;
+
+            if (e.Id == idSelecionado)
+                return e;
+        }
+
+        return null;
+    }
 }
