@@ -6,10 +6,12 @@ using ClubeDaLeitura.ConsoleApp.Infraestrutura;
 RepositorioCaixa repositorioCaixa = new RepositorioCaixa();
 RepositorioRevista repositorioRevista = new RepositorioRevista();
 RepositorioAmigo repositorioAmigo = new RepositorioAmigo();
+RepositorioEmprestimo repositorioEmprestimo = new RepositorioEmprestimo();
 
 TelaCaixa telaCaixa = new TelaCaixa(repositorioCaixa);
 TelaRevista telaRevista = new TelaRevista(repositorioRevista, repositorioCaixa);
 TelaAmigo telaAmigo = new TelaAmigo(repositorioAmigo);
+TelaEmprestimo telaEmprestimo = new TelaEmprestimo(repositorioEmprestimo, repositorioRevista, repositorioAmigo);
 
 // 2. Criação de dados teste
 Caixa caixa = new Caixa("Lançamentos", "Vermelho", 3);
@@ -22,13 +24,12 @@ Amigo amigo = new Amigo("Joãozinho", "Dona Cleide", "49 98222-4353");
 repositorioAmigo.Cadastrar(amigo);
 
 Emprestimo emprestimo = new Emprestimo(revista, amigo);
-
-Console.ForegroundColor = ConsoleColor.;
-
+emprestimo.Abrir();
+repositorioEmprestimo.Cadastrar(emprestimo);
 // 3. Loop principal
 while (true)
 {
-    Console.Clear();
+    // Console.Clear();
     Console.WriteLine("---------------------------------");
     Console.WriteLine("Clube da Leitura");
     Console.WriteLine("---------------------------------");
@@ -120,9 +121,18 @@ while (true)
                 telaAmigo.VisualizarTodos(deveExibirCabecalho: true);
         }
 
-        else if (opcaoMenuPrincipal == "4")
+        else if (opcaoMenuPrincipal == "4") // Empréstimos
         {
+            opcaoMenuInterno = telaEmprestimo.ObterOpcaoMenu();
 
+            if (opcaoMenuInterno == "S")
+            {
+                Console.Clear();
+                break;
+            }
+
+            if (opcaoMenuInterno == "1")
+                telaEmprestimo.Abrir();
         }
     }
 }

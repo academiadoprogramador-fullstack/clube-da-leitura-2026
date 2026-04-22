@@ -21,7 +21,18 @@ public class Emprestimo
     public Revista Revista { get; set; }
     public Amigo Amigo { get; set; }
     public DateTime Abertura { get; set; }
-    public DateTime ConclusaoPrevista { get; set; }
+    public DateTime ConclusaoPrevista
+    {
+        // encapsula a lógica da leitura da Conclusão Prevista
+        get
+        {
+            int diasDeEmprestimo = Revista.Caixa.DiasDeEmprestimo;
+
+            DateTime conclusao = Abertura.AddDays(diasDeEmprestimo);
+
+            return conclusao;
+        }
+    }
     public StatusEmprestimo Status { get; set; } = StatusEmprestimo.Indefinido;
 
     public Emprestimo(Revista revista, Amigo amigo)
@@ -46,5 +57,14 @@ public class Emprestimo
             erros = "O campo \"Amigo\" deve ser preenchido;";
 
         return erros.Split(';', StringSplitOptions.RemoveEmptyEntries);
+    }
+
+    public void Abrir()
+    {
+        Abertura = DateTime.Now;
+        Status = StatusEmprestimo.Aberto;
+
+        Revista.Emprestar();
+        Amigo.AdicionarEmprestimo(this);
     }
 }

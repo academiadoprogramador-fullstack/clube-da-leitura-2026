@@ -1,0 +1,185 @@
+using ClubeDaLeitura.ConsoleApp.Dominio;
+using ClubeDaLeitura.ConsoleApp.Dominio.Base;
+using ClubeDaLeitura.ConsoleApp.Infraestrutura;
+
+namespace ClubeDaLeitura.ConsoleApp.Apresentacao;
+
+public class TelaEmprestimo
+{
+    private RepositorioEmprestimo repositorioEmprestimo;
+    private RepositorioRevista repositorioRevista;
+    private RepositorioAmigo repositorioAmigo;
+
+    public TelaEmprestimo
+    (
+        RepositorioEmprestimo repositorioEmprestimo,
+        RepositorioRevista repositorioRevista,
+        RepositorioAmigo repositorioAmigo
+    )
+    {
+        this.repositorioEmprestimo = repositorioEmprestimo;
+        this.repositorioRevista = repositorioRevista;
+        this.repositorioAmigo = repositorioAmigo;
+    }
+
+    public string? ObterOpcaoMenu()
+    {
+        // Console.Clear();
+        Console.WriteLine("---------------------------------");
+        Console.WriteLine($"Gestão de Empréstimos");
+        Console.WriteLine("---------------------------------");
+        Console.WriteLine($"1 - Abrir empréstimo");
+        Console.WriteLine($"2 - Concluir empréstimo");
+        Console.WriteLine($"3 - Visualizar empréstimos");
+        Console.WriteLine("S - Voltar para o início");
+        Console.WriteLine("---------------------------------");
+        Console.Write("> ");
+        string? opcaoMenu = Console.ReadLine()?.ToUpper();
+
+        return opcaoMenu;
+    }
+
+    public void Abrir()
+    {
+        // lógica de abertura e cadastro de empréstimo?
+
+        // 1. Obter os dados obrigatórios de um empréstimo (Revista, Amigo)
+        Emprestimo emprestimo = ObterDadosCadastrais();
+
+        // 2. Validar o empréstimo
+        string[] erros = emprestimo.Validar();
+
+        if (erros.Length > 0)
+        {
+            Console.WriteLine("---------------------------------");
+
+            Console.ForegroundColor = ConsoleColor.Red;
+
+            for (int i = 0; i < erros.Length; i++)
+            {
+                string erro = erros[i];
+
+                Console.WriteLine(erro);
+            }
+
+            Console.ResetColor();
+            Console.WriteLine("---------------------------------");
+            Console.Write("Digite ENTER para continuar...");
+            Console.ReadLine();
+
+            Abrir();
+            return;
+        }
+
+        // 3. Abrir o empréstimo
+        emprestimo.Abrir();
+
+        // 4. Armazenar/cadastrar o empréstimo
+        repositorioEmprestimo.Cadastrar(emprestimo);
+    }
+
+    private Emprestimo ObterDadosCadastrais()
+    {
+        // 1. Selecionar uma revista disponível
+        VisualizarRevistas();
+
+        Revista? revista = null;
+
+        do
+        {
+            Console.Write("Digite o id da revista que deseja emprestar: ");
+            string? idSelecionado = Console.ReadLine();
+
+            if (!string.IsNullOrWhiteSpace(idSelecionado) && idSelecionado.Length == 7)
+                revista = (Revista?)repositorioRevista.SelecionarPorId(idSelecionado);
+
+        } while (revista == null);
+
+        // 2. Selecionar um amigo disponível
+        Console.WriteLine("---------------------------------");
+
+        VisualizarAmigos();
+
+        Amigo? amigo = null;
+
+        do
+        {
+            Console.Write("Digite o id do amigo que receberá a revista: ");
+            string? idSelecionado = Console.ReadLine();
+
+            if (!string.IsNullOrWhiteSpace(idSelecionado) && idSelecionado.Length == 7)
+                amigo = (Amigo?)repositorioAmigo.SelecionarPorId(idSelecionado);
+
+        } while (amigo == null);
+
+        // 3. Gerar um empréstimo
+        return new Emprestimo(revista, amigo);
+    }
+
+    public void VisualizarRevistas()
+    {
+        Console.WriteLine(
+            "{0, -7} | {1, -25} | {2, -6} | {3, -4} | {4, -15}",
+            "Id", "Título", "Edição", "Ano", "Caixa"
+        );
+
+        EntidadeBase?[] revistas = repositorioRevista.SelecionarTodos();
+
+        for (int i = 0; i < revistas.Length; i++)
+        {
+            Revista? r = (Revista?)revistas[i];
+
+            if (r == null)
+                continue;
+
+            Console.Write("{0, -7} | ", r.Id);
+            Console.Write("{0, -25} | ", r.Titulo);
+            Console.Write("{0, -6} | ", r.NumeroEdicao);
+            Console.Write("{0, -4} | ", r.AnoPublicacao);
+
+            string corSelecionada = r.Caixa.Cor;
+
+            if (corSelecionada == "Vermelho")
+                Console.ForegroundColor = ConsoleColor.Red;
+
+            else if (corSelecionada == "Verde")
+                Console.ForegroundColor = ConsoleColor.Green;
+
+            else if (corSelecionada == "Azul")
+                Console.ForegroundColor = ConsoleColor.Blue;
+
+            Console.Write("{0, -15}", r.Caixa.Etiqueta);
+
+            Console.ResetColor();
+            Console.WriteLine();
+        }
+
+        Console.WriteLine("---------------------------------");
+    }
+
+
+    public void VisualizarAmigos()
+    {
+        Console.WriteLine(
+            "{0, -7} | {1, -15} | {2, -15} | {3, -13}",
+            "Id", "Nome", "Responsável", "Telefone"
+        );
+
+        EntidadeBase?[] amigos = repositorioAmigo.SelecionarTodos();
+
+        for (int i = 0; i < amigos.Length; i++)
+        {
+            Amigo? a = (Amigo?)amigos[i];
+
+            if (a == null)
+                continue;
+
+            Console.WriteLine(
+                "{0, -7} | {1, -15} | {2, -15} | {3, -13}",
+                a.Id, a.Nome, a.NomeResponsavel, a.Telefone
+            );
+        }
+
+        Console.WriteLine("---------------------------------");
+    }
+}
