@@ -76,6 +76,66 @@ public class TelaEmprestimo
         ExibirMensagem($"O empréstimo \"{emprestimo.Id}\" foi aberto e cadastrado com sucesso.");
     }
 
+    public void VisualizarTodos(bool deveExibirCabecalho)
+    {
+        if (deveExibirCabecalho)
+            ExibirCabecalho("Visualização de Empréstimos");
+
+        Console.WriteLine(
+            "{0, -7} | {1, -15} | {2, -10} | {3, -10} | {4, -15} | {5, -10}",
+            "Id", "Revista", "Amigo", "Abertura", "Conclusão Prev.", "Status"
+        );
+
+        Emprestimo?[] emprestimos = repositorioEmprestimo.SelecionarTodos();
+
+        for (int i = 0; i < emprestimos.Length; i++)
+        {
+            Emprestimo? e = emprestimos[i];
+
+            if (e == null)
+                continue;
+
+            Console.Write("{0, -7} | ", e.Id);
+            Console.Write("{0, -15} | ", e.Revista.Titulo);
+            Console.Write("{0, -10} | ", e.Amigo.Nome);
+            Console.Write("{0, -10} | ", e.Abertura.ToShortDateString());
+            Console.Write("{0, -15} | ", e.ConclusaoPrevista.ToShortDateString());
+
+            string status = e.Status.ToString();
+
+            if (e.EstaAtrasado)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                status = "Atrasado";
+            }
+            else if (e.Status == StatusEmprestimo.Indefinido)
+            {
+                Console.ForegroundColor = ConsoleColor.Blue;
+            }
+            else if (e.Status == StatusEmprestimo.Aberto)
+            {
+                Console.ForegroundColor = ConsoleColor.Yellow;
+            }
+            else if (e.Status == StatusEmprestimo.Concluido)
+            {
+                Console.ForegroundColor = ConsoleColor.Green;
+                status = "Concluído";
+            }
+
+            Console.Write("{0, -10}", status);
+
+            Console.ResetColor();
+            Console.WriteLine();
+        }
+
+        if (deveExibirCabecalho)
+        {
+            Console.WriteLine("---------------------------------");
+            Console.WriteLine("Digite ENTER para continuar...");
+            Console.ReadLine();
+        }
+    }
+
     private Emprestimo ObterDadosCadastrais()
     {
         // 1. Selecionar uma revista disponível
@@ -114,7 +174,7 @@ public class TelaEmprestimo
         return new Emprestimo(revista, amigo);
     }
 
-    public void VisualizarRevistas()
+    private void VisualizarRevistas()
     {
         Console.WriteLine(
             "{0, -7} | {1, -25} | {2, -6} | {3, -4} | {4, -15}",
@@ -155,8 +215,7 @@ public class TelaEmprestimo
         Console.WriteLine("---------------------------------");
     }
 
-
-    public void VisualizarAmigos()
+    private void VisualizarAmigos()
     {
         Console.WriteLine(
             "{0, -7} | {1, -15} | {2, -15} | {3, -13}",

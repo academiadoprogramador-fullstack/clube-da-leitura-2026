@@ -21,6 +21,14 @@ public class Emprestimo
         }
     }
 
+    public bool EstaAtrasado
+    {
+        get
+        {
+            return Status == StatusEmprestimo.Aberto && DateTime.Now > ConclusaoPrevista;
+        }
+    }
+
     public Emprestimo(Revista revista, Amigo amigo)
     {
         Id = Convert
