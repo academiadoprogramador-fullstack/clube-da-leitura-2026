@@ -39,9 +39,9 @@ public class TelaPrincipal
         repositorioEmprestimo.Cadastrar(emprestimo);
     }
 
-    public TelaBase? ApresentarMenuOpcoesPrincipal()
+    public ITela? ApresentarMenuOpcoesPrincipal()
     {
-        // Console.Clear();
+        Console.Clear();
         Console.WriteLine("---------------------------------");
         Console.WriteLine("Clube da Leitura");
         Console.WriteLine("---------------------------------");
@@ -62,6 +62,9 @@ public class TelaPrincipal
 
         if (opcaoMenuPrincipal == "3")
             return new TelaAmigo(repositorioAmigo);
+
+        if (opcaoMenuPrincipal == "4")
+            return new TelaEmprestimo(repositorioEmprestimo, repositorioRevista, repositorioAmigo);
 
         return null;
     }
