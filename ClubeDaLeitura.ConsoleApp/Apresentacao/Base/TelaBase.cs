@@ -18,7 +18,7 @@ public abstract class TelaBase
     {
         string nomeMinusculo = nomeEntidade.ToLower();
 
-        Console.Clear();
+        // Console.Clear();
         Console.WriteLine("---------------------------------");
         Console.WriteLine($"Gestão de {nomeEntidade}");
         Console.WriteLine("---------------------------------");
@@ -161,7 +161,7 @@ public abstract class TelaBase
 
     protected void ExibirCabecalho(string titulo)
     {
-        Console.Clear();
+        // Console.Clear();
         Console.WriteLine("---------------------------------");
         Console.WriteLine($"Gestão de {nomeEntidade}");
         Console.WriteLine("---------------------------------");
