@@ -38,10 +38,8 @@ while (true)
             break;
         }
 
-        if (telaSelecionada is TelaBase)
+        if (telaSelecionada is TelaBase telaBase)
         {
-            TelaBase telaBase = (TelaBase)telaSelecionada;
-
             if (opcaoMenuInterno == "1")
                 telaBase.Cadastrar();
 
@@ -55,10 +53,8 @@ while (true)
                 telaBase.VisualizarTodos(deveExibirCabecalho: true);
         }
 
-        else if (telaSelecionada is TelaEmprestimo)
+        else if (telaSelecionada is TelaEmprestimo telaEmprestimo)
         {
-            TelaEmprestimo telaEmprestimo = (TelaEmprestimo)telaSelecionada;
-
             opcaoMenuInterno = telaEmprestimo.ObterOpcaoMenu();
 
             if (opcaoMenuInterno == "S")
