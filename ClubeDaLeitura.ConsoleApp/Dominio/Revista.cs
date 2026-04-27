@@ -4,11 +4,11 @@ namespace ClubeDaLeitura.ConsoleApp.Dominio;
 
 public class Revista : EntidadeBase
 {
-    public string Titulo { get; set; }
-    public int NumeroEdicao { get; set; }
-    public int AnoPublicacao { get; set; }
-    public Caixa Caixa { get; set; }
-    public StatusRevista Status { get; set; }
+    public string Titulo { get; private set; }
+    public int NumeroEdicao { get; private set; }
+    public int AnoPublicacao { get; private set; }
+    public Caixa Caixa { get; private set; }
+    public StatusRevista Status { get; private set; }
 
     public Revista(string titulo, int numeroEdicao, int anoPublicacao, Caixa caixa)
     {

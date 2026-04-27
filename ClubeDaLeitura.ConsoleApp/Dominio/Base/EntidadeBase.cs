@@ -4,7 +4,7 @@ namespace ClubeDaLeitura.ConsoleApp.Dominio.Base;
 
 public abstract class EntidadeBase
 {
-    public string Id { get; set; } = string.Empty;
+    public string Id { get; private set; } = string.Empty;
 
     public EntidadeBase()
     {

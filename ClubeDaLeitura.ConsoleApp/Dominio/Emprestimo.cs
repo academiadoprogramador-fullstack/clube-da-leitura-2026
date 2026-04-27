@@ -4,11 +4,11 @@ namespace ClubeDaLeitura.ConsoleApp.Dominio;
 
 public class Emprestimo
 {
-    public string Id { get; set; } = string.Empty;
-    public Revista Revista { get; set; }
-    public Amigo Amigo { get; set; }
-    public StatusEmprestimo Status { get; set; }
-    public DateTime Abertura { get; set; }
+    public string Id { get; private set; } = string.Empty;
+    public Revista Revista { get; private set; }
+    public Amigo Amigo { get; private set; }
+    public StatusEmprestimo Status { get; private set; }
+    public DateTime Abertura { get; private set; }
     public DateTime ConclusaoPrevista
     {
         get

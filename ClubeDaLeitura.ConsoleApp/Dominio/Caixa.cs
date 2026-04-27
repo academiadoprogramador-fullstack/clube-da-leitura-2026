@@ -4,9 +4,9 @@ namespace ClubeDaLeitura.ConsoleApp.Dominio;
 
 public class Caixa : EntidadeBase
 {
-    public string Etiqueta { get; set; } = string.Empty;
-    public string Cor { get; set; } = string.Empty;
-    public int DiasDeEmprestimo { get; set; } = 7;
+    public string Etiqueta { get; private set; } = string.Empty;
+    public string Cor { get; private set; } = string.Empty;
+    public int DiasDeEmprestimo { get; private set; } = 7;
 
     public Caixa(string etiqueta, string cor, int diasDeEmprestimo)
     {
