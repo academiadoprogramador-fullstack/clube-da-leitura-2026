@@ -2,13 +2,6 @@ using ClubeDaLeitura.ConsoleApp.Dominio.Base;
 
 namespace ClubeDaLeitura.ConsoleApp.Dominio;
 
-public enum StatusReserva
-{
-    Indefinido,
-    Ativa,
-    Concluida
-}
-
 public class Reserva : EntidadeBase
 {
     public Revista Revista { get; set; }
