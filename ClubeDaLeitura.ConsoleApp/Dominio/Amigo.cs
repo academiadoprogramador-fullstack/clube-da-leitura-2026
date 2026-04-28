@@ -8,6 +8,22 @@ public class Amigo : EntidadeBase
     public string NomeResponsavel { get; private set; } = string.Empty;
     public string Telefone { get; private set; } = string.Empty;
     public Emprestimo?[] Emprestimos { get; private set; } = new Emprestimo[100];
+    public Multa?[] Multas { get; set; } = new Multa[100];
+    public bool ContemMultaAtiva
+    {
+        get
+        {
+            for (int i = 0; i < Multas.Length; i++)
+            {
+                Multa? multa = Multas[i];
+
+                if (multa?.Status == StatusMulta.Ativa)
+                    return true;
+            }
+
+            return false;
+        }
+    }
 
     public Amigo(string nome, string nomeResponsavel, string telefone)
     {
@@ -80,5 +96,33 @@ public class Amigo : EntidadeBase
                 break;
             }
         }
+    }
+
+    public void RegistrarMulta(Multa multa)
+    {
+        for (int i = 0; i < Multas.Length; i++)
+        {
+            if (Multas[i] == null)
+            {
+                Multas[i] = multa;
+                break;
+            }
+        }
+    }
+
+    public Multa? ObterMultaAtiva()
+    {
+        for (int i = 0; i < Multas.Length; i++)
+        {
+            Multa? m = Multas[i];
+
+            if (m == null)
+                continue;
+
+            if (m.Status == StatusMulta.Ativa)
+                return m;
+        }
+
+        return null;
     }
 }

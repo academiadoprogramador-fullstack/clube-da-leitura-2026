@@ -25,7 +25,7 @@ public class TelaEmprestimo : ITela
 
     public string? ObterOpcaoMenu()
     {
-        // Console.Clear();
+        Console.Clear();
         Console.WriteLine("---------------------------------");
         Console.WriteLine($"Gestão de Empréstimos");
         Console.WriteLine("---------------------------------");
@@ -70,6 +70,58 @@ public class TelaEmprestimo : ITela
             return;
         }
 
+        Amigo amigoEmprestimo = emprestimo.Amigo;
+
+        if (amigoEmprestimo.ContemMultaAtiva)
+        {
+            Multa multa = amigoEmprestimo.ObterMultaAtiva()!;
+
+            Console.WriteLine("---------------------------------");
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("Este amigo contém uma multa ativa...");
+            Console.WriteLine("O pagamento precisa ser efetuado antes de prosseguir.");
+            Console.ResetColor();
+            Console.WriteLine("---------------------------------");
+
+            Console.WriteLine(
+                "{0, -7} | {1, -12} | {2, -7} | {3, -20} | {4, -10}",
+                "Id", "Ocorrência", "Valor", "Revista", "Status"
+            );
+
+            Console.WriteLine(
+                "{0, -7} | {1, -12} | {2, -7} | {3, -20} | {4, -10}",
+                multa.Id,
+                multa.DataOcorrencia.ToShortDateString(),
+                multa.Valor.ToString("C2"),
+                multa.Emprestimo.Revista.Titulo,
+                multa.Status
+            );
+
+            Console.WriteLine("---------------------------------");
+            Console.Write("Deseja efetuar o pagamento? (s/N): ");
+            string opcaoPagamento = Console.ReadLine() ?? string.Empty;
+
+            if (opcaoPagamento.ToUpper() == "S")
+            {
+                multa.Quitar();
+
+                Console.WriteLine("---------------------------------");
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("A multa foi quitada com sucesso!");
+                Console.ResetColor();
+                Console.WriteLine("---------------------------------");
+                Console.Write("Digite ENTER para continuar...");
+                Console.ReadLine();
+            }
+            else
+            {
+                Console.WriteLine("---------------------------------");
+                Console.Write("Digite ENTER para continuar...");
+                Console.ReadLine();
+                return;
+            }
+        }
+
         emprestimo.Abrir();
 
         repositorioEmprestimo.Cadastrar(emprestimo);
@@ -89,23 +141,17 @@ public class TelaEmprestimo : ITela
 
         do
         {
-            Console.Write("Digite o id do empréstimo que deseja concluir: ");
-            string? idSelecionado = Console.ReadLine();
+            Console.Write("Digite o id do empréstimo que deseja concluir (ou S para sair): ");
+            string? idSelecionado = Console.ReadLine() ?? string.Empty;
+
+            if (idSelecionado.ToUpper() == "S")
+                return;
 
             if (!string.IsNullOrWhiteSpace(idSelecionado) && idSelecionado.Length == 7)
                 emprestimoSelecionado = repositorioEmprestimo.SelecionarPorId(idSelecionado);
 
         } while (emprestimoSelecionado == null);
 
-        Console.WriteLine("---------------------------------");
-        Console.WriteLine(
-            "{0, -7} | {1, -15} | {2, -10} | {3, -10} | {4, -15}",
-            "Id", "Revista", "Amigo", "Abertura", "Conclusão Prev."
-        );
-        Console.WriteLine(
-            "{0, -7} | {1, -15} | {2, -10} | {3, -10} | {4, -15}",
-            emprestimoSelecionado.Id, emprestimoSelecionado.Revista.Titulo, emprestimoSelecionado.Amigo.Nome, emprestimoSelecionado.Abertura.ToShortDateString(), emprestimoSelecionado.ConclusaoPrevista.ToShortDateString()
-        );
         Console.WriteLine("---------------------------------");
 
         Console.Write("Deseja realmente concluir o empréstimo selecionado? (s/N): ");
@@ -117,6 +163,36 @@ public class TelaEmprestimo : ITela
             Console.WriteLine("Digite ENTER para continuar...");
             Console.ReadLine();
             return;
+        }
+
+        if (emprestimoSelecionado.EstaAtrasado)
+        {
+            DateTime dataConclusao = DateTime.Now;
+
+            Multa multa = new Multa(emprestimoSelecionado, dataConclusao);
+
+            Amigo amigoSelecionado = emprestimoSelecionado.Amigo;
+
+            amigoSelecionado.RegistrarMulta(multa);
+
+            Console.WriteLine("---------------------------------");
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("Uma multa de atraso foi gerada para este empréstimo.");
+            Console.ResetColor();
+            Console.WriteLine("---------------------------------");
+            Console.WriteLine(
+                "{0, -7} | {1, -12} | {2, -7} | {3, -20} | {4, -10}",
+                "Id", "Ocorrência", "Valor", "Revista", "Status"
+            );
+
+            Console.WriteLine(
+                "{0, -7} | {1, -12} | {2, -7} | {3, -20} | {4, -10}",
+                multa.Id,
+                multa.DataOcorrencia.ToShortDateString(),
+                multa.Valor.ToString("C2"),
+                multa.Emprestimo.Revista.Titulo,
+                multa.Status
+            );
         }
 
         emprestimoSelecionado.Concluir();
@@ -146,8 +222,8 @@ public class TelaEmprestimo : ITela
             Console.Write("{0, -7} | ", e.Id);
             Console.Write("{0, -15} | ", e.Revista.Titulo);
             Console.Write("{0, -10} | ", e.Amigo.Nome);
-            Console.Write("{0, -10} | ", e.Abertura.ToShortDateString());
-            Console.Write("{0, -15} | ", e.ConclusaoPrevista.ToShortDateString());
+            Console.Write("{0, -10} | ", e.DataAbertura.ToShortDateString());
+            Console.Write("{0, -15} | ", e.DataConclusaoPrevista.ToShortDateString());
 
             string status = e.Status.ToString();
 

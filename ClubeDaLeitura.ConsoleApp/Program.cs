@@ -51,12 +51,16 @@ while (true)
 
             else if (opcaoMenuInterno == "4")
                 telaBase.VisualizarTodos(deveExibirCabecalho: true);
+
+            if (opcaoMenuInterno == "5")
+            {
+                if (telaBase is TelaAmigo telaAmigo)
+                    telaAmigo.VisualizarMultas();
+            }
         }
 
         else if (telaSelecionada is TelaEmprestimo telaEmprestimo)
         {
-            opcaoMenuInterno = telaEmprestimo.ObterOpcaoMenu();
-
             if (opcaoMenuInterno == "S")
             {
                 Console.Clear();

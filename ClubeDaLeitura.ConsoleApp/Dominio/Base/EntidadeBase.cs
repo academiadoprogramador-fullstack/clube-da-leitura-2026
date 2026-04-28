@@ -9,7 +9,7 @@ public abstract class EntidadeBase
     public EntidadeBase()
     {
         Id = Convert
-                .ToHexString(RandomNumberGenerator.GetBytes(20))
+                .ToHexString(RandomNumberGenerator.GetBytes(4))
                 .ToLower()
                 .Substring(0, 7);
     }

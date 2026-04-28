@@ -25,11 +25,17 @@ public class TelaPrincipal
         this.repositorioEmprestimo = repositorioEmprestimo;
 
         // 2. Criação de dados teste
-        Caixa caixa = new Caixa("Lançamentos", "Vermelho", 3);
+        Caixa caixa = new Caixa("Lançamentos", "Vermelho", -1);
         repositorioCaixa.Cadastrar(caixa);
+
+        Caixa caixa2 = new Caixa("Mangás", "Azul", 7);
+        repositorioCaixa.Cadastrar(caixa2);
 
         Revista revista = new Revista("Action Comics", 155, 1990, caixa);
         repositorioRevista.Cadastrar(revista);
+
+        Revista revista2 = new Revista("Hajime no Ippo", 1220, 2000, caixa2);
+        repositorioRevista.Cadastrar(revista2);
 
         Amigo amigo = new Amigo("Joãozinho", "Dona Cleide", "49 98222-4353");
         repositorioAmigo.Cadastrar(amigo);
@@ -37,6 +43,9 @@ public class TelaPrincipal
         Emprestimo emprestimo = new Emprestimo(revista, amigo);
         emprestimo.Abrir();
         repositorioEmprestimo.Cadastrar(emprestimo);
+
+        Multa multa = new Multa(emprestimo, DateTime.Now);
+        amigo.RegistrarMulta(multa);
     }
 
     public ITela? ApresentarMenuOpcoesPrincipal()
