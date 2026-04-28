@@ -9,6 +9,23 @@ public class Amigo : EntidadeBase
     public string Telefone { get; private set; } = string.Empty;
     public Emprestimo?[] Emprestimos { get; private set; } = new Emprestimo[100];
     public Multa?[] Multas { get; set; } = new Multa[100];
+
+    public bool ContemEmprestimoAberto
+    {
+        get
+        {
+            for (int i = 0; i < Emprestimos.Length; i++)
+            {
+                Emprestimo? e = Emprestimos[i];
+
+                if (e?.Status == StatusEmprestimo.Aberto)
+                    return true;
+            }
+
+            return false;
+        }
+    }
+
     public bool ContemMultaAtiva
     {
         get

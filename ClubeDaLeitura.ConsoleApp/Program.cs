@@ -7,13 +7,15 @@ RepositorioCaixa repositorioCaixa = new RepositorioCaixa();
 RepositorioRevista repositorioRevista = new RepositorioRevista();
 RepositorioAmigo repositorioAmigo = new RepositorioAmigo();
 RepositorioEmprestimo repositorioEmprestimo = new RepositorioEmprestimo();
+RepositorioReserva repositorioReserva = new RepositorioReserva();
 
 TelaPrincipal telaPrincipal = new TelaPrincipal
 (
     repositorioCaixa,
     repositorioRevista,
     repositorioAmigo,
-    repositorioEmprestimo
+    repositorioEmprestimo,
+    repositorioReserva
 );
 
 // 2. Loop do menu principal
@@ -75,6 +77,24 @@ while (true)
 
             else if (opcaoMenuInterno == "3")
                 telaEmprestimo.VisualizarTodos(deveExibirCabecalho: true);
+        }
+
+        else if (telaSelecionada is TelaReserva telaReserva)
+        {
+            if (opcaoMenuInterno == "S")
+            {
+                Console.Clear();
+                break;
+            }
+
+            if (opcaoMenuInterno == "1")
+                telaReserva.Iniciar();
+
+            else if (opcaoMenuInterno == "2")
+                telaReserva.Concluir();
+
+            else if (opcaoMenuInterno == "3")
+                telaReserva.VisualizarTodas(deveExibirCabecalho: true);
         }
     }
 }

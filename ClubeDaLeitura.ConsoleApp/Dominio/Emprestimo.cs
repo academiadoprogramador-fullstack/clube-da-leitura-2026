@@ -47,6 +47,9 @@ public class Emprestimo
         if (Revista == null)
             erros = "O campo \"Revista\" deve ser preenchido;";
 
+        else if (Revista.Status != StatusRevista.Disponivel)
+            erros = "A revista selecionada não está disponível.";
+
         if (Amigo == null)
             erros = "O campo \"Amigo\" deve ser preenchido;";
 
