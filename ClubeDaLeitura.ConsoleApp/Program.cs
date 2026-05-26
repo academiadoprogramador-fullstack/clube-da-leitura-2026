@@ -1,5 +1,5 @@
-﻿
-using ClubeDaLeitura.ConsoleApp.Apresentacao;
+﻿using ClubeDaLeitura.ConsoleApp.Apresentacao;
+using ClubeDaLeitura.ConsoleApp.Compartilhado;
 using ClubeDaLeitura.ConsoleApp.Dominio;
 using ClubeDaLeitura.ConsoleApp.Infraestrutura;
 
@@ -10,20 +10,11 @@ TelaCaixa telaCaixa = new TelaCaixa(repositorioCaixa);
 Caixa caixa = new Caixa("Lançamentos", "Vermelho", 3);
 repositorioCaixa.Cadastrar(caixa);
 
+TelaPrincipal telaPrincipal = new TelaPrincipal();
+
 while (true)
 {
-    Console.Clear();
-    Console.WriteLine("---------------------------------");
-    Console.WriteLine("Clube da Leitura");
-    Console.WriteLine("---------------------------------");
-    Console.WriteLine("1 - Gerenciar caixas de revistas");
-    Console.WriteLine("2 - Gerenciar revistas");
-    Console.WriteLine("3 - Gerenciar amigos");
-    Console.WriteLine("4 - Gerenciar empréstimos");
-    Console.WriteLine("S - Sair");
-    Console.WriteLine("---------------------------------");
-    Console.Write("> ");
-    string? opcaoMenuPrincipal = Console.ReadLine()?.ToUpper();
+    string? opcaoMenuPrincipal = telaPrincipal.ObterOpcaoMenuPrincipal();
 
     if (opcaoMenuPrincipal == "S")
     {
@@ -33,7 +24,7 @@ while (true)
 
     while (true)
     {
-        string? opcaoMenuInterno = string.Empty;
+        string? opcaoMenuInterno;
 
         if (opcaoMenuPrincipal == "1") // Caixas
         {
@@ -58,17 +49,17 @@ while (true)
                 telaCaixa.VisualizarTodos(deveExibirCabecalho: true);
         }
 
-        else if (opcaoMenuPrincipal == "2")
+        else if (opcaoMenuPrincipal == "2") // Revistas
         {
 
         }
 
-        else if (opcaoMenuPrincipal == "3")
+        else if (opcaoMenuPrincipal == "3") // Amigos
         {
 
         }
 
-        else if (opcaoMenuPrincipal == "4")
+        else if (opcaoMenuPrincipal == "4") // Empréstimos
         {
 
         }

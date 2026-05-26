@@ -76,16 +76,8 @@ public class TelaCaixa
 
         Console.WriteLine("---------------------------------");
 
-        string? idSelecionado;
-
-        do
-        {
-            Console.Write("Digite o ID do registro que deseja editar: ");
-            idSelecionado = Console.ReadLine();
-
-            if (!string.IsNullOrWhiteSpace(idSelecionado) && idSelecionado.Length == 7)
-                break;
-        } while (true);
+        Console.Write("Digite o ID do registro que deseja editar: ");
+        int idSelecionado = Convert.ToInt32(Console.ReadLine());
 
         Console.WriteLine("---------------------------------");
 
@@ -135,16 +127,10 @@ public class TelaCaixa
 
         Console.WriteLine("---------------------------------");
 
-        string? idSelecionado;
+        Console.Write("Digite o ID do registro que deseja excluir: ");
+        int idSelecionado = Convert.ToInt32(Console.ReadLine());
 
-        do
-        {
-            Console.Write("Digite o ID do registro que deseja excluir: ");
-            idSelecionado = Console.ReadLine();
-
-            if (!string.IsNullOrWhiteSpace(idSelecionado) && idSelecionado.Length == 7)
-                break;
-        } while (true);
+        Console.WriteLine("---------------------------------");
 
         bool conseguiuExcluir = repositorioCaixa.Excluir(idSelecionado);
 

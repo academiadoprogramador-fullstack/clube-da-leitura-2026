@@ -1,36 +1,30 @@
-
 using ClubeDaLeitura.ConsoleApp.Dominio;
 
 namespace ClubeDaLeitura.ConsoleApp.Infraestrutura;
 
 public class RepositorioCaixa
 {
-    private Caixa?[] caixas = new Caixa[100];
+    private readonly Caixa[] registros = new Caixa[100];
 
     public void Cadastrar(Caixa novaCaixa)
     {
-        for (int i = 0; i < caixas.Length; i++)
+        for (int i = 0; i < registros.Length; i++)
         {
-            if (caixas[i] == null)
+            if (registros[i] == null)
             {
-                caixas[i] = novaCaixa;
+                registros[i] = novaCaixa;
                 break;
             }
         }
     }
 
-    public Caixa?[] SelecionarTodas()
-    {
-        return caixas;
-    }
-
-    public bool Editar(string idSelecionado, Caixa novaCaixa)
+    public bool Editar(int idSelecionado, Caixa novaCaixa)
     {
         Caixa? caixaSelecionada = null;
 
-        for (int i = 0; i < caixas.Length; i++)
+        for (int i = 0; i < registros.Length; i++)
         {
-            Caixa? c = caixas[i];
+            Caixa? c = registros[i];
 
             if (c == null)
                 continue;
@@ -45,27 +39,32 @@ public class RepositorioCaixa
         if (caixaSelecionada == null)
             return false;
 
-        caixaSelecionada.AtualizarRegistro(novaCaixa);
+        caixaSelecionada.Atualizar(novaCaixa);
 
         return true;
     }
 
-    public bool Excluir(string idSelecionado)
+    public bool Excluir(int idSelecionado)
     {
-        for (int i = 0; i < caixas.Length; i++)
+        for (int i = 0; i < registros.Length; i++)
         {
-            Caixa? c = caixas[i];
+            Caixa? c = registros[i];
 
             if (c == null)
                 continue;
 
             if (c.Id == idSelecionado)
             {
-                caixas[i] = null;
+                registros[i] = null;
                 return true;
             }
         }
 
         return false;
+    }
+
+    public Caixa?[] SelecionarTodas()
+    {
+        return registros;
     }
 }
