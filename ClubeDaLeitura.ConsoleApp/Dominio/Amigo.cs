@@ -61,7 +61,7 @@ public class Amigo : EntidadeBase
         return erros.Split(';', StringSplitOptions.RemoveEmptyEntries);
     }
 
-    public override void AtualizarRegistro(EntidadeBase entidadeAtualizada)
+    public override void Atualizar(EntidadeBase entidadeAtualizada)
     {
         Amigo amigoAtualizado = (Amigo)entidadeAtualizada;
 

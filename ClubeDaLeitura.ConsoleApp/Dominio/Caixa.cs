@@ -37,7 +37,7 @@ public class Caixa : EntidadeBase
         return erros.Split(';', StringSplitOptions.RemoveEmptyEntries); // separar
     }
 
-    public override void AtualizarRegistro(EntidadeBase entidadeAtualizada)
+    public override void Atualizar(EntidadeBase entidadeAtualizada)
     {
         Caixa caixaAtualizada = (Caixa)entidadeAtualizada;
 
