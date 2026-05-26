@@ -91,6 +91,85 @@ empréstimos.
 - A data de devolução é calculada automaticamente (data empréstimo + dias da
   caixa)
 
+## Diagrama de Classes do Domínio
+
+```mermaid
+classDiagram
+    direction LR
+
+    class EntidadeBase {
+        <<abstract>>
+        +string Id
+        +Validar() string[]
+        +Atualizar(EntidadeBase entidadeAtualizada) void
+    }
+
+    class Caixa {
+        +string Etiqueta
+        +string Cor
+        +int DiasDeEmprestimo
+        +Validar() string[]
+        +Atualizar(EntidadeBase entidadeAtualizada) void
+    }
+
+    class Revista {
+        +string Titulo
+        +int NumeroEdicao
+        +int AnoPublicacao
+        +StatusRevista Status
+        +Validar() string[]
+        +Atualizar(EntidadeBase entidadeAtualizada) void
+        +Emprestar() void
+        +Devolver() void
+    }
+
+    class Amigo {
+        +string Nome
+        +string NomeResponsavel
+        +string Telefone
+        +Emprestimo[] Emprestimos
+        +Validar() string[]
+        +Atualizar(EntidadeBase entidadeAtualizada) void
+        +AdicionarEmprestimo(Emprestimo emprestimo) void
+    }
+
+    class Emprestimo {
+        +string Id
+        +StatusEmprestimo Status
+        +DateTime Abertura
+        +DateTime ConclusaoPrevista
+        +bool EstaAtrasado
+        +Validar() string[]
+        +Abrir() void
+        +Concluir() void
+    }
+
+    class StatusRevista {
+        <<enumeration>>
+        Disponivel
+        Emprestada
+    }
+
+    class StatusEmprestimo {
+        <<enumeration>>
+        Indefinido
+        Aberto
+        Concluido
+    }
+
+    EntidadeBase <|-- Caixa
+    EntidadeBase <|-- Revista
+    EntidadeBase <|-- Amigo
+
+    Caixa "1" <-- "0..*" Revista : armazena
+    Revista "1" <-- "0..*" Emprestimo : empresta
+    Amigo "1" <-- "0..*" Emprestimo : solicita
+    Amigo "1" o-- "0..*" Emprestimo : historico
+
+    Revista --> StatusRevista : possui
+    Emprestimo --> StatusEmprestimo : possui
+```
+
 ## Como utilizar
 
 1. Clone o repositório ou baixe o código fonte.
